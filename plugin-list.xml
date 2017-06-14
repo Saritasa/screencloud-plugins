@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+    <plugin>
+        <name>SFTP</name>
+        <shortname>sftp</shortname>
+        <description>Upload to a secure SFTP server</description>
+        <author>Olav Sortland Thoresen</author>
+        <version>1.6</version>
+        <category>online</category>
+        <icon>https://raw.githubusercontent.com/Saritasa/screencloud-plugins/master/sftp/icon.png</icon>
+        <weblink>https://github.com/Saritasa/screencloud-plugins</weblink>
+        <download>https://raw.githubusercontent.com/Saritasa/screencloud-plugins/master/sftp/current.zip</download>
+    </plugin>
+</plugins>
