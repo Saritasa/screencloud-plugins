@@ -187,7 +187,7 @@ class DerSequence(DerObject):
 
         def hasInts(self):
                 """Return the number of items in this sequence that are numbers."""
-                return len(filter(isInt, self._seq))
+                return len(list(filter(isInt, self._seq)))
 
         def hasOnlyInts(self):
                 """Return True if all items in this sequence are numbers."""
@@ -257,7 +257,7 @@ class DerOctetString(DerObject):
         self.payload = value
 
     def decode(self, derEle, noLeftOvers=0):
-        p = DerObject.decode(derEle, noLeftOvers)
+        p = DerObject.decode(self, derEle, noLeftOvers)
         if not self.isType("OCTET STRING"):
             raise ValueError("Not a valid OCTET STRING.")
         return p
@@ -271,7 +271,7 @@ class DerObjectId(DerObject):
         DerObject.__init__(self, 'OBJECT IDENTIFIER')
 
     def decode(self, derEle, noLeftOvers=0):
-        p = DerObject.decode(derEle, noLeftOvers)
+        p = DerObject.decode(self, derEle, noLeftOvers)
         if not self.isType("OBJECT IDENTIFIER"):
             raise ValueError("Not a valid OBJECT IDENTIFIER.")
         return p

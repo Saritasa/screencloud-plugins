@@ -23,7 +23,7 @@
 
 """Self-test suite for generic Crypto.Random stuff """
 
-from __future__ import nested_scopes
+
 
 __revision__ = "$Id$"
 
@@ -39,6 +39,11 @@ from Crypto.Util.py3compat import *
 
 try:
     import multiprocessing
+    # multiprocessing.Pool uses classes from multiprocessing.synchronize, so we
+    # need to check if multiprocessing.semaphore will work. Otherwise creating a
+    # multiprocessing.Pool instance will fail with an ImportError. See Python
+    # bug #3770 for details.
+    import multiprocessing.synchronize
 except ImportError:
     multiprocessing = None
 
@@ -106,7 +111,7 @@ class RNGForkTest(unittest.TestCase):
             results_dict[data] = 1
             f.close()
 
-        if len(results) != len(results_dict.keys()):
+        if len(results) != len(list(results_dict.keys())):
             raise AssertionError("RNG output duplicated across fork():\n%s" %
                                  (pprint.pformat(results)))
 

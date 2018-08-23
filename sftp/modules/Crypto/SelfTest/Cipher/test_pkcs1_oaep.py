@@ -20,7 +20,7 @@
 # SOFTWARE.
 # ===================================================================
 
-from __future__ import nested_scopes
+
 
 __revision__ = "$Id$"
 
@@ -269,7 +269,7 @@ class PKCS1_OAEP_Tests(unittest.TestCase):
                 # Verify encryption using all test vectors
                 for test in self._testData:
                         # Build the key
-                        comps = [ long(rws(test[0][x]),16) for x in ('n','e') ]
+                        comps = [ int(rws(test[0][x]),16) for x in ('n','e') ]
                         key = RSA.construct(comps)
                         # RNG that takes its random numbers from a pool given
                         # at initialization
@@ -297,7 +297,7 @@ class PKCS1_OAEP_Tests(unittest.TestCase):
                 # Verify decryption using all test vectors
                 for test in self._testData:
                         # Build the key
-                        comps = [ long(rws(test[0][x]),16) for x in ('n','e','d') ]
+                        comps = [ int(rws(test[0][x]),16) for x in ('n','e','d') ]
                         key = RSA.construct(comps)
                         # The real test
                         cipher = PKCS.new(key, test[4])
@@ -312,13 +312,14 @@ class PKCS1_OAEP_Tests(unittest.TestCase):
 
         def testEncryptDecrypt1(self):
                 # Encrypt/Decrypt messages of length [0..128-2*20-2]
-                for pt_len in xrange(0,128-2*20-2):
+                for pt_len in range(0,128-2*20-2):
                     pt = self.rng(pt_len)
-                    ct = PKCS.encrypt(pt, self.key1024)
-                    pt2 = PKCS.decrypt(ct, self.key1024)
+                    cipher = PKCS.new(self.key1024)
+                    ct = cipher.encrypt(pt)
+                    pt2 = cipher.decrypt(ct)
                     self.assertEqual(pt,pt2)
 
-        def testEncryptDecrypt1(self):
+        def testEncryptDecrypt2(self):
                 # Helper function to monitor what's requested from RNG
                 global asked
                 def localRng(N):
@@ -335,9 +336,9 @@ class PKCS1_OAEP_Tests(unittest.TestCase):
                     cipher = PKCS.new(self.key1024, hashmod)
                     ct = cipher.encrypt(pt)
                     self.assertEqual(cipher.decrypt(ct), pt)
-                    self.failUnless(asked > hashmod.digest_size)
+                    self.assertTrue(asked > hashmod.digest_size)
 
-        def testEncryptDecrypt2(self):
+        def testEncryptDecrypt3(self):
                 # Verify that OAEP supports labels
                 pt = self.rng(35)
                 xlabel = self.rng(22)
@@ -345,7 +346,7 @@ class PKCS1_OAEP_Tests(unittest.TestCase):
                 ct = cipher.encrypt(pt)
                 self.assertEqual(cipher.decrypt(ct), pt)
 
-        def testEncryptDecrypt3(self):
+        def testEncryptDecrypt4(self):
                 # Verify that encrypt() uses the custom MGF
                 global mgfcalls
                 # Helper function to monitor what's requested from MGF

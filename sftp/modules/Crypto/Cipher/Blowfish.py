@@ -85,8 +85,7 @@ def new(key, *args, **kwargs):
         actually the *encrypted* IV which was prefixed to the ciphertext).
         It is mandatory.
        
-        For all other modes, it must be `block_size` bytes longs. It is optional and
-        when not present it will be given a default value of all zeroes.
+        For all other modes, it must be `block_size` bytes longs.
       counter : callable
         (*Only* `MODE_CTR`). A stateful function that returns the next
         *counter block*, which is a byte string of `block_size` bytes.
@@ -117,5 +116,5 @@ MODE_OPENPGP = 7
 #: Size of a data block (in bytes)
 block_size = 8
 #: Size of a key (in bytes)
-key_size = xrange(4,56+1)
+key_size = range(4,56+1)
 
